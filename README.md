@@ -1,2 +1,2 @@
 # EjerciciosJAVA
-Código de ejemplo sobre JAVA. (No contiene ningún proyecto. Solo pequeñas prácticas de ejemplo)
+Códigos de ejemplo sobre JAVA. (No contiene ningún proyecto. Solo pequeñas prácticas de ejemplo)
