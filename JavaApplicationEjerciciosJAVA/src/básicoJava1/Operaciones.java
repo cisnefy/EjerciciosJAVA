@@ -9,26 +9,23 @@ public class Operaciones {
 
     public static void main(String[] arg) {
 
-        double numero1 = 2;
-        double numero2 = 3;
-        double multiplicacion = 0;
+        CSolicitud solicitud = new CSolicitud();
 
-        double suma = (numero1 + numero2);
-        double resta = (numero1 - numero2);
+        CSolicitudSumar ordenSolicitaSuma = new CSolicitudSumar(solicitud);
+        CSolicitudRestar ordenSolicitaResta = new CSolicitudRestar(solicitud);
+        CSolicitudMultiplicar ordenSolicitaMultiplicacion = new CSolicitudMultiplicar(solicitud);
+        CSolicitudDividir ordenSolicitaDivision = new CSolicitudDividir(solicitud);
+        CSolicitudModulo ordenSolicitaModulo = new CSolicitudModulo(solicitud);
 
-        for (int i = 1; i <= numero2; i++) {
+        CInvocador invocador = new CInvocador();
 
-            multiplicacion += numero1;
-        }
+        invocador.tomarOrden(ordenSolicitaSuma);
+        invocador.tomarOrden(ordenSolicitaResta);
+        invocador.tomarOrden(ordenSolicitaMultiplicacion);
+        invocador.tomarOrden(ordenSolicitaDivision);
+        invocador.tomarOrden(ordenSolicitaModulo);
 
-        double division = (numero1 / numero2);
-        double modulo = (numero1 % numero2);
-
-        System.out.println("Suma de:............. " + numero1 + " + " + numero2 + " = " + suma);
-        System.out.println("Resta de:............ " + numero1 + " - " + numero2 + " = " + resta);
-        System.out.println("Multiplicación de:... " + numero1 + " * " + numero2 + " = " + multiplicacion);
-        System.out.println("División de:......... " + numero1 + " / " + numero2 + " = " + division);
-        System.out.println("Módulo de:........... " + numero1 + " % " + numero2 + " = " + modulo);
+        invocador.hacerPedidos();
     }
 
 }
