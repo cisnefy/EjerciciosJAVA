@@ -37,7 +37,7 @@ public class ControladorNumeroMayor {
     
     public void actualizarVista(){
     
-        view.printNumeroMayor(model.getNumeroI(), model.getNumeroII());
+        view.printNumeroMayor(model.getNumeroI(), model.getNumeroII(), model.getNumeroMayor());
     }
 
 }

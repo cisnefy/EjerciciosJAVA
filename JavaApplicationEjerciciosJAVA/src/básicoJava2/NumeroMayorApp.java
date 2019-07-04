@@ -8,19 +8,30 @@ package básicoJava2;
 public class NumeroMayorApp {
 
     public static void main(String[] args) {
+        
+        ModeloNumeroMayor model = traerNumerosDeLaBaseDeDatos();
+        
+        VistaNumeroMayor view = new VistaNumeroMayor();
+        
+        ControladorNumeroMayor controller = new ControladorNumeroMayor(model, view);
+        
+        controller.actualizarVista();
+        
+        controller.setModeloNumeroI(3);
+        
+        controller.actualizarVista();
+        
+        controller.setModeloNumeroI(5);
+        
+        controller.actualizarVista();
+    }
 
-        double numeroI = 7;
-        double numeroII = 5;
+    private static ModeloNumeroMayor traerNumerosDeLaBaseDeDatos() {
 
-        if (numeroI > numeroII) {
-
-            System.out.println(numeroI + " es mayor que: " + numeroII);
-        } else if (numeroI < numeroII) {
-            System.out.println(numeroI + " es menor que: " + numeroII);
-        } else if (numeroI == numeroII) {
-
-            System.out.println(numeroI + " es igual a: " + numeroII);
-        }
+        ModeloNumeroMayor modelNumero = new ModeloNumeroMayor();
+        modelNumero.setNumeroI(7);
+        modelNumero.setNumeroII(5);
+        return modelNumero;
     }
 
 }
