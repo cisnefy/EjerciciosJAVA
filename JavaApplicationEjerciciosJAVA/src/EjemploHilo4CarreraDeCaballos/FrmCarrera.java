@@ -5,17 +5,23 @@
  */
 package EjemploHilo4CarreraDeCaballos;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  *
  * @author HOGAR
  */
-public class FrmCarrera extends javax.swing.JFrame {
+public class FrmCarrera extends javax.swing.JFrame implements Observer {
+    
+    private Thread[] hilos;
 
     /**
      * Creates new form FrmCarrera
      */
     public FrmCarrera() {
         initComponents();
+        hilos = new Thread[4];
     }
 
     /**
@@ -36,7 +42,8 @@ public class FrmCarrera extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jProgressBar4 = new javax.swing.JProgressBar();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnIniciar = new javax.swing.JButton();
+        labelGanador = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,22 +75,44 @@ public class FrmCarrera extends javax.swing.JFrame {
         jLabel5.setText("El ganador es: ");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jButton1.setText("Iniciar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciar.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnIniciar.setText("Iniciar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnIniciarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 440, 60));
+        getContentPane().add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 440, 60));
+
+        labelGanador.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        getContentPane().add(labelGanador, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 244, 120, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+        this.btnIniciar.setEnabled(false);
+        this.labelGanador.setText("");
+        
+        for(int i = 0; i < hilos.length; i++){
+        
+            Caballo c = new Caballo((i+1)+"");
+            c.addObserver(this);
+            hilos[i] = new Thread(c);
+            hilos[i].start();
+        }
+    }//GEN-LAST:event_btnIniciarActionPerformed
 
+    private void terminar(){
+    
+        for(int i = 0; i<hilos.length; i++){
+        
+            hilos[i].interrupt();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -120,7 +149,7 @@ public class FrmCarrera extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnIniciar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -130,5 +159,37 @@ public class FrmCarrera extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JProgressBar jProgressBar3;
     private javax.swing.JProgressBar jProgressBar4;
+    private javax.swing.JLabel labelGanador;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        
+        Caballo c = (Caballo) o;
+        int porcentaje = (int) arg;
+        
+        switch(c.getNombre()){
+        
+            case "1":
+                this.jProgressBar1.setValue(porcentaje);
+                break;
+            case "2":
+                this.jProgressBar2.setValue(porcentaje);
+                break;
+            case "3":
+                this.jProgressBar3.setValue(porcentaje);
+                break;
+            case "4":
+                this.jProgressBar4.setValue(porcentaje);
+                break;
+                
+        }
+        
+        if(porcentaje >= 100){
+        
+            terminar();
+            this.btnIniciar.setEnabled(true);
+            this.labelGanador.setText("Caballo "+ c.getNombre());
+        }
+    }
 }
