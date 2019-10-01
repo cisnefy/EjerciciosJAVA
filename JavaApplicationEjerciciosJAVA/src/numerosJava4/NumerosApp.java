@@ -14,6 +14,10 @@ public class NumerosApp {
         NumerosController controller = new NumerosController(model, view1, view2);
         controller.view1();
         controller.view2();
+        controller.setNumerosNumero2(4);
+        controller.view1();
+        controller.view2();
+        
     }
 
     private static Numeros getNumbersFromDataBase() {
